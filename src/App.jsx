@@ -1,10 +1,10 @@
-// import './App.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Accounts from "./pages/Accounts"
 import { Provider } from "react-redux"
 import Dashboard from "./pages/Dashboard"
 import store from "./store/store"
 import FormPage from "./pages/FormPage"
+import { ToastContainer, toast } from 'react-toastify';
 
 function App() {
 
@@ -26,6 +26,7 @@ function App() {
     <>
       <Provider store={store}>
         <RouterProvider router={router} />
+        <ToastContainer />
       </Provider>
     </>
   )

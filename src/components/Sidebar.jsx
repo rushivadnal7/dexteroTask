@@ -155,12 +155,12 @@ const SubMenuItem = styled(MenuItem)`
 `;
 
 const Hamburger = styled.div`
-  /* position: fixed;
-  top: 15px;
-  left: 15px; */
+  position: fixed;
+  top: 0;
+  left: 0;
   font-size: 24px;
   cursor: pointer;
-  width: 10%;
+  width: 40px;
   z-index: 900;
   display: flex;
   align-items: start;

@@ -2,119 +2,156 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import Default from "../layout/Default";
+import { v4 as uuidv4 } from "uuid";
+import { addAccount } from "../features/accountSlice";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const FormPage = () => {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
 
-    const onSubmit = (data) => {
-        console.log("Form Submitted:", data);
+  const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    const newAccount = {
+      id: uuidv4(),
+      accountName: `${data.firstName} ${data.lastName}`,
+      email: data.email,
+      phone: data.phone,
+      website: "http://example.com",
+      industry: "Not Specified",
+      accountStatus: true,
+      remark: "Newly added user",
+      dateOfBirth: data.dateOfBirth,
     };
 
-    return (
-        <Default>
-            <Container>
-                <TabContainer>
-                    <Tab active>Personal</Tab>
-                    <Tab>Education</Tab>
-                    <Tab>Experience</Tab>
-                    <Tab>Other</Tab>
-                </TabContainer>
+    dispatch(addAccount(newAccount));
+    reset();
+    toast.success('Account Added Successfully!')
+  };
 
-                <FormContainer onSubmit={handleSubmit(onSubmit)}>
-                    <Header>
-                        <h2>Personal Details</h2>
-                        <p>
-                            Make changes to your <strong>Profile Account</strong> here.{" "}
-                            <span>Click save when you're done.</span>
-                        </p>
-                    </Header>
+  return (
+    <Default>
+      <Container>
+        <TabContainer>
+          <Tab active>Personal</Tab>
+          <Tab>Education</Tab>
+          <Tab>Experience</Tab>
+          <Tab>Other</Tab>
+        </TabContainer>
 
-                    <InputRow>
-                        <InputGroup>
-                            <Label>First Name *</Label>
-                            <Input {...register("firstName", { required: "First name is required" })} />
-                            {errors.firstName && <Error>{errors.firstName.message}</Error>}
-                        </InputGroup>
+        <FormContainer onSubmit={handleSubmit(onSubmit)}>
+          <Header>
+            <h2>Personal Details</h2>
+            <p>
+              Make changes to your <strong>Profile Account</strong> here.{" "}
+              <span>Click save when you're done.</span>
+            </p>
+          </Header>
 
-                        <InputGroup>
-                            <Label>Middle Name</Label>
-                            <Input {...register("middleName")} />
-                        </InputGroup>
+          <InputRow>
+            <InputGroup>
+              <Label>First Name *</Label>
+              <Input {...register("firstName", { required: "First name is required" })} />
+              {errors.firstName && <Error>{errors.firstName.message}</Error>}
+            </InputGroup>
 
-                        <InputGroup>
-                            <Label>Last Name *</Label>
-                            <Input {...register("lastName", { required: "Last name is required" })} />
-                            {errors.lastName && <Error>{errors.lastName.message}</Error>}
-                        </InputGroup>
-                    </InputRow>
+            <InputGroup>
+              <Label>Middle Name</Label>
+              <Input {...register("middleName")} />
+            </InputGroup>
 
-                    <InputRow>
-                        <InputGroup>
-                            <Label>Email *</Label>
-                            <Input
-                                {...register("email", {
-                                    required: "Email is required",
-                                    pattern: { value: /^\S+@\S+$/i, message: "Enter a valid email" },
-                                })}
-                            />
-                            {errors.email && <Error>{errors.email.message}</Error>}
-                        </InputGroup>
+            <InputGroup>
+              <Label>Last Name *</Label>
+              <Input {...register("lastName", { required: "Last name is required" })} />
+              {errors.lastName && <Error>{errors.lastName.message}</Error>}
+            </InputGroup>
+          </InputRow>
 
-                        <InputGroup>
-                            <Label>Phone *</Label>
-                            <Input
-                                {...register("phone", {
-                                    required: "Phone number is required",
-                                    pattern: { value: /^[0-9]{10}$/, message: "Enter a valid 10-digit phone number" },
-                                })}
-                            />
-                            {errors.phone && <Error>{errors.phone.message}</Error>}
-                        </InputGroup>
-                    </InputRow>
+          <InputRow>
+            <InputGroup>
+              <Label>Email *</Label>
+              <Input
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: { value: /^\S+@\S+$/i, message: "Enter a valid email" },
+                })}
+              />
+              {errors.email && <Error>{errors.email.message}</Error>}
+            </InputGroup>
 
-                    <InputGroupFull>
-                        <Label>Address *</Label>
-                        <Textarea {...register("address", { required: "Address is required" })} />
-                        {errors.address && <Error>{errors.address.message}</Error>}
-                    </InputGroupFull>
+            <InputGroup>
+              <Label>Phone *</Label>
+              <Input
+                {...register("phone", {
+                  required: "Phone number is required",
+                  pattern: { value: /^[0-9]{10}$/, message: "Enter a valid 10-digit phone number" },
+                })}
+              />
+              {errors.phone && <Error>{errors.phone.message}</Error>}
+            </InputGroup>
+          </InputRow>
 
-                    <InputRow>
-                        <InputGroup>
-                            <Label>Pin Code *</Label>
-                            <Input {...register("pinCode", { required: "Pin Code is required" })} />
-                            {errors.pinCode && <Error>{errors.pinCode.message}</Error>}
-                        </InputGroup>
+          <InputGroupFull>
+            <Label>Address *</Label>
+            <Textarea {...register("address", { required: "Address is required" })} />
+            {errors.address && <Error>{errors.address.message}</Error>}
+          </InputGroupFull>
 
-                        <InputGroup>
-                            <Label>Country *</Label>
-                            <Input {...register("country", { required: "Country is required" })} />
-                            {errors.country && <Error>{errors.country.message}</Error>}
-                        </InputGroup>
-                    </InputRow>
+          <InputRow>
+            <InputGroup>
+              <Label>Pin Code *</Label>
+              <Input {...register("pinCode", { required: "Pin Code is required" })} />
+              {errors.pinCode && <Error>{errors.pinCode.message}</Error>}
+            </InputGroup>
 
-                    <InputRow>
-                        <InputGroup>
-                            <Label>State *</Label>
-                            <Input {...register("state", { required: "State is required" })} />
-                            {errors.state && <Error>{errors.state.message}</Error>}
-                        </InputGroup>
+            <InputGroup>
+              <Label>Country *</Label>
+              <Input {...register("country", { required: "Country is required" })} />
+              {errors.country && <Error>{errors.country.message}</Error>}
+            </InputGroup>
+          </InputRow>
+          <InputRow>
+            <InputGroup>
+              <Label>Date of Birth (DD-MM-YYYY) *</Label>
+              <Input
+                {...register("dateOfBirth", {
+                  required: "Date of Birth is required",
+                  pattern: {
+                    value: /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4})$/,
+                    message: "Enter date in DD-MM-YYYY format",
+                  },
+                })}
+                placeholder="DD-MM-YYYY"
+              />
+              {errors.dateOfBirth && <Error>{errors.dateOfBirth.message}</Error>}
+            </InputGroup>
+          </InputRow>
 
-                        <InputGroup>
-                            <Label>City *</Label>
-                            <Input {...register("city", { required: "City is required" })} />
-                            {errors.city && <Error>{errors.city.message}</Error>}
-                        </InputGroup>
-                    </InputRow>
+          <InputRow>
+            <InputGroup>
+              <Label>State *</Label>
+              <Input {...register("state", { required: "State is required" })} />
+              {errors.state && <Error>{errors.state.message}</Error>}
+            </InputGroup>
 
-                    <SubmitButton type="submit">Save</SubmitButton>
-                </FormContainer>
-            </Container>
-        </Default>
-    );
+            <InputGroup>
+              <Label>City *</Label>
+              <Input {...register("city", { required: "City is required" })} />
+              {errors.city && <Error>{errors.city.message}</Error>}
+            </InputGroup>
+          </InputRow>
+
+          <SubmitButton type="submit">Save</SubmitButton>
+        </FormContainer>
+      </Container>
+    </Default>
+  );
 };
 
 export default FormPage;
@@ -129,7 +166,7 @@ const Container = styled.div`
   @media (max-width: 768px) {
     padding: 15px;
     width: 95%;
-    margin-left: 0;
+    margin-left: 40px;
   }
 `;
 
@@ -207,7 +244,6 @@ const InputGroupFull = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
-  /* margin: 10px 0; */
 `;
 
 const Label = styled.label`

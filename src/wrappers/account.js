@@ -6,10 +6,11 @@ export const AccountWrapper = styled.div`
   padding: 20px;
   background: #fff;
   margin-left: 250px;
+  overflow-x: hidden;
 
   @media (max-width: 768px) {
     width: 90%;
-    margin-left: 0;
+    margin-left: 40px;
   }
 
 `;
@@ -20,6 +21,7 @@ export const TableContainer = styled.div`
   border: 1px solid #ddd;
   height: max-content;
   font-size: smaller;
+  width: 100%;
 `;
 
 export const Table = styled.table`
